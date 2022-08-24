@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # it tells sqlalchemy to run the create staments
 # so that it generated all of the tables when we
 # first start it
-#models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 

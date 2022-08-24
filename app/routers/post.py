@@ -1,12 +1,10 @@
-from itertools import count, groupby
-from ntpath import join
 from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import  Session # this will allow you to declare the type of the db parameters and have better type checks and completion in your functions.
 from typing import List, Optional
 from sqlalchemy import func
 
-from app import oauth2
-from .. import models, schemas
+
+from .. import models, schemas, oauth2
 from ..database import get_db
 
 router = APIRouter(
