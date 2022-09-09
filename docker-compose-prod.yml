@@ -1,0 +1,46 @@
+version: '3'
+# a service is nothing more than a container
+# if you want more containers then create
+# another "service"
+services: 
+  # Service named "api"
+  api:
+    build: .
+    depends_on:
+      - postgres
+    ports: 
+        # - <port on localhost>: <port on containers>
+        - 80:8000
+    
+
+    #command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+    # env_file:
+    #     - ./.env
+    # Set env. variables. 
+    # NOTE: env_file does the same thing    
+    environment:
+      - DATABASE_HOSTNAME=${DATABASE_HOSTNAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - SECRET_KEY=${SECRET_KEY} 
+      - ALGORITHM=${ALGORITHM}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
+  
+  # service named "postgres"
+  # this is our docker database
+  postgres:
+    image: postgres
+    environment:
+        - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+        - POSTGRES_DB=${DATABASE_NAME}
+    # VOLUMES
+    # Allows us to save data from our container onto our local
+    # machine so that data persist even if with kill of a container
+    # (data would be saved and use in a new container)
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+volumes:
+  postgres-db:
